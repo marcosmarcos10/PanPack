@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PanPack | Plástico sostenible a partir de pan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2a9d8f;
+            --secondary-color: #e9c46a;
+            --dark-color: #264653;
+            --light-color: #f8f9fa;
+            --accent-color: #e76f51;
+            --text-color: #333;
+            --text-light: #666;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .logo-img {
+            height: 40px;   /* ajusta el tamaño */
+            margin-right: 10px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            overflow-x: hidden;
+            background-color: var(--light-color);
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            color: var(--light-color);
+        }
+
+        h2 {
+            font-size: 2.8rem;
+            color: var(--dark-color);
+            text-align: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background-color: var(--accent-color);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            color: var(--text-light);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: 2px solid var(--accent-color);
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            color: var(--accent-color);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        /* Header y Navegación */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 15px 0;
+            transition: all 0.3s ease;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            color: var(--secondary-color);
+            margin-right: 10px;
+            font-size: 2.2rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent-color);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.8rem;
+            background: none;
+            border: none;
+            color: var(--dark-color);
+            cursor: pointer;
+        }
+
+        /* Hero Section - CON VIDEO DE FONDO */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            color: white;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7));
+            z-index: -1;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 span {
+            color: var(--secondary-color);
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            margin-bottom: 40px;
+            color: #f0f0f0;
+        }
+
+        /* Storytelling Section - Con Carrusel Mejorado */
+        .storytelling {
+            background-color: white;
+        }
+
+        .storytelling-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .storytelling-content {
+            padding-right: 30px;
+        }
+
+        /* Carrusel de imagen/video con flechas */
+        .media-carousel {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            overflow: hidden;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+
+        .carousel-slide.active {
+            display: block;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .carousel-slide video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            padding: 20px 0;
+            background-color: #f5f5f5;
+        }
+
+        .indicator {
+            height: 6px;
+            width: 60px;
+            background-color: #ddd;
+            margin: 0 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .indicator.active {
+            background-color: var(--primary-color);
+        }
+
+        /* Flechas del carrusel */
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-arrow:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-arrow.prev {
+            left: 20px;
+        }
+
+        .carousel-arrow.next {
+            right: 20px;
+        }
+
+        /* Sección de Productos */
+        .products {
+            background-color: #f8f9fa;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-content {
+            padding: 30px;
+        }
+
+        .product-name {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .product-icon {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-right: 15px;
+        }
+
+        .product-features {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .product-features li {
+            margin-bottom: 8px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .product-features li:before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+        }
+
+        /* Video Section */
+        .video-section {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+        }
+
+        .video-section h2 {
+            color: white;
+        }
+
+        .video-section h2::after {
+            background-color: var(--secondary-color);
+        }
+
+        .video-container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-description {
+            margin-top: 30px;
+            font-size: 1.1rem;
+            color: #ddd;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .miParrado {
+            color: #ddd;
+        }
+        /* Misión, Visión y Valores */
+        .mvvm {
+            background-color: white;
+        }
+
+        .mvvm-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .mvvm-card {
+            background-color: #f8f9fa;
+            padding: 40px 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .mvvm-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .mvvm-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+        }
+
+        .values-list {
+            list-style: none;
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .values-list li {
+            margin-bottom: 12px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .values-list li:before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+        }
+
+        /* Sección de Contacto */
+        .contact-section {
+            background-color: var(--dark-color);
+            color: white;
+            padding-bottom: 80px; /* Separación del footer */
+        }
+
+        .contact-section h2 {
+            color: white;
+        }
+
+        .contact-section h2::after {
+            background-color: var(--secondary-color);
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: stretch; /* Hace que ambos tengan la misma altura */
+        }
+
+        .contact-form {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            height: 100%; /* Ocupa toda la altura disponible */
+        }
+
+        .contact-form h3 {
+            color: var(--dark-color);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+            flex-grow: 1; /* Permite que el textarea crezca */
+        }
+
+        .form-button {
+            margin-top: auto; /* Empuja el botón hacia abajo */
+        }
+
+        .map-container {
+            height: 100%; /* Misma altura que el formulario */
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Footer - Diferente color para diferenciarlo */
+        footer {
+            background-color: #1a252f; /* Color más oscuro para diferenciar del formulario */
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .footer-about p {
+            color: #bbb;
+        }
+
+        .footer-links h4, .footer-contact h4 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-links h4::after, .footer-contact h4::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent-color);
+            bottom: 0;
+            left: 0;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links ul li a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links ul li a:hover {
+            color: var(--secondary-color);
+        }
+
+        .footer-contact p {
+            color: #bbb;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-contact i {
+            margin-right: 10px;
+            color: var(--secondary-color);
+        }
+
+        .social-icons {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            margin-right: 15px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #bbb;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .products-grid {
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            h1 {
+                font-size: 2.8rem;
+            }
+            
+            h2 {
+                font-size: 2.3rem;
+            }
+            
+            .storytelling-container {
+                gap: 30px;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .mvvm-grid {
+                gap: 25px;
+            }
+            
+            .contact-container {
+                gap: 40px;
+            }
+            
+            .footer-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .storytelling-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .storytelling-content {
+                padding-right: 0;
+            }
+            
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .map-container {
+                height: 400px; /* Altura fija en móviles */
+            }
+            
+            .contact-form {
+                height: auto; /* Altura automática en móviles */
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.3rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            nav ul {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+                transform: translateY(-150%);
+                transition: transform 0.4s ease;
+                z-index: 999;
+            }
+            
+            nav ul.active {
+                transform: translateY(0);
+            }
+            
+            nav ul li {
+                margin: 15px 0;
+            }
+            
+            .hero {
+                height: 80vh;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+            
+            .mvvm-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .carousel-arrow {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            section {
+                padding: 60px 0;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .contact-form {
+                padding: 30px 20px;
+            }
+            
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .carousel-arrow {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+            
+            .carousel-arrow.prev {
+                left: 10px;
+            }
+            
+            .carousel-arrow.next {
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header y Navegación -->
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <img src="espiga.png" alt="Logo PanPack" class="logo-img">
+                <!--<i class="fas fa-seedling logo-icon"></i>-->
+                PanPack
+            </a>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav>
+                <ul id="main-menu">
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#storytelling">Nuestra Historia</a></li>
+                    <li><a href="#productos">Nuestros Productos</a></li>
+                    <li><a href="#video">Proceso</a></li>
+                    <li><a href="#mvvm">Misión y Valores</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section - CON VIDEO DE FONDO -->
+    <section class="hero" id="inicio">
+        <!-- Video de fondo -->
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="arboles.mp4" type="video/mp4">
+            Tu navegador no soporta videos HTML5.
+        </video>
+        
+        <!-- Overlay oscuro para mejorar legibilidad -->
+        <div class="hero-overlay"></div>
+        
+        <div class="container">
+            <div class="hero-content">
+                <h1>Transformando <span>pan</span> en <span>plástico</span> sostenible</h1>
+                <p>En PanPack revolucionamos la industria del plástico creando materiales 100% biodegradables a partir de desechos de pan, reduciendo la contaminación y promoviendo la economía circular.</p>
+                <a href="#productos" class="btn">Descubre nuestros productos</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Storytelling Section -->
+    <section class="storytelling" id="storytelling">
+        <div class="container">
+            <h2>Nuestra Historia</h2>
+            <div class="storytelling-container">
+                <div class="storytelling-content">
+                    <h3>Una idea que nace de la necesidad</h3>
+                    <p>Todo comenzó en una panadería local, donde cada día se desechaban kilos de pan que no se vendían. Nos preguntamos: ¿y si en lugar de tirarlo, pudiéramos transformarlo en algo útil?</p>
+                    <p>Después de años de investigación, nuestro equipo de científicos e ingenieros desarrolló un proceso patentado que convierte el pan sobrante en un bioplástico de alta calidad, completamente biodegradable y compostable.</p>
+                    <p>Hoy, PanPack no solo ayuda a reducir los residuos alimentarios, sino que también ofrece una alternativa real al plástico tradicional, contribuyendo a un planeta más limpio y sostenible.</p>
+                    <a href="#video" class="btn btn-outline">Ver nuestro proceso</a>
+                </div>
+                
+                <!-- Carrusel de imagen/video con flechas -->
+                <div class="media-carousel">
+                    <div class="carousel-container">
+                        <button class="carousel-arrow prev">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        
+                        <div class="carousel-slide active">
+                            <img src="logo-bueno-sin-fondo.png" alt="Proceso de transformación de pan en plástico">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="panpack-pared.jpg" alt="Proceso de transformación de pan en plástico">
+                        </div>
+                        <div class="carousel-slide">
+                            <video class="carousel-video" controls>
+                                <source src="storytelling.mp4" type="video/mp4">
+                                Tu navegador no soporta el elemento de video.
+                            </video>
+                        </div>
+                        
+                        <button class="carousel-arrow next">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="carousel-indicators">
+                        <div class="indicator active" data-slide="0"></div>
+                        <div class="indicator" data-slide="1"></div>
+                        <div class="indicator" data-slide="2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Productos -->
+    <section class="products" id="productos">
+        <div class="container">
+            <h2>Nuestros Productos</h2>
+            <div class="products-grid">
+                <!-- Producto 1 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="taper-con-fondo.png" alt="PanBox - Bandejas semirrígidas">
+                    </div>
+                    <div class="product-content">
+                        <div class="product-name">
+                            <i class="fas fa-box product-icon"></i>
+                            <h3>PanBox</h3>
+                        </div>
+                        <p>Bandejas semirrígidas para alimentos elaboradas 100% con pan reciclado. Perfectas para envasado de frutas, verduras, pasteles y alimentos preparados.</p>
+                        <ul class="product-features">
+                            <li>100% biodegradable y compostable</li>
+                            <li>Alta resistencia a la humedad</li>
+                            <li>Diseños personalizables</li>
+                            <li>Certificación alimentaria</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Producto 2 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="bolsa-logo.png" alt="PanBag - Bolsas ecológicas">
+                    </div>
+                    <div class="product-content">
+                        <div class="product-name">
+                            <i class="fas fa-shopping-bag product-icon"></i>
+                            <h3>PanBag</h3>
+                        </div>
+                        <p>Bolsas ecológicas para comercios y supermercados fabricadas con nuestro bioplástico de pan. Una alternativa sostenible a las bolsas de plástico tradicionales.</p>
+                        <ul class="product-features">
+                            <li>Resistencia comparable al plástico tradicional</li>
+                            <li>Se descompone en menos de 9 semanas</li>
+                            <li>Impresión ecológica disponible</li>
+                            <li>Variedad de tamaños y grosores</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Producto 3 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="film.jpg" alt="PanFilm - Film plástico ecológico">
+                    </div>
+                    <div class="product-content">
+                        <div class="product-name">
+                            <i class="fas fa-film product-icon"></i>
+                            <h3>PanFilm</h3>
+                        </div>
+                        <p>Film plástico transparente y flexible para envolver alimentos. Conserva la frescura de los productos sin generar residuos plásticos permanentes.</p>
+                        <ul class="product-features">
+                            <li>Transparente y flexible</li>
+                            <li>Adhesivo natural no tóxico</li>
+                            <li>Protege alimentos sin alterar su sabor</li>
+                            <li>Biodegradable y compostable</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="video-section" id="video">
+        <div class="container">
+            <h2>¿Cómo transformamos pan en plástico?</h2>
+            <div class="video-container">
+                <div class="video-wrapper">
+                    <!-- Video de ejemplo - reemplazar con tu video real -->
+                    <iframe src="prototipo.mp4" title="Proceso de creación de bioplástico" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="video-description">
+                    <p class="miParrado">Nuestro proceso patentado transforma el pan sobrante en un bioplástico de alta calidad mediante un método de fermentación controlada y polimerización natural. El resultado es un material con propiedades similares al plástico tradicional, pero completamente biodegradable en menos de 9 semanas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Misión, Visión y Valores -->
+    <section class="mvvm" id="mvvm">
+        <div class="container">
+            <h2>Misión, Visión y Valores</h2>
+            <div class="mvvm-grid">
+                <div class="mvvm-card">
+                    <div class="mvvm-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3>Misión</h3>
+                    <p>Proveer soluciones sostenibles de embalaje y materiales plásticos a partir de residuos alimentarios, reduciendo la contaminación por plásticos y promoviendo una economía circular que beneficie al medio ambiente y a las comunidades.</p>
+                </div>
+                
+                <div class="mvvm-card">
+                    <div class="mvvm-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3>Visión</h3>
+                    <p>Ser líderes globales en la producción de bioplásticos sostenibles para 2030, eliminando el plástico tradicional de un solo uso y transformando los residuos alimentarios en recursos valiosos para un futuro más limpio y sostenible.</p>
+                </div>
+                
+                <div class="mvvm-card">
+                    <div class="mvvm-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>Valores</h3>
+                    <ul class="values-list">
+                        <li><strong>Sostenibilidad:</strong> Compromiso con el medio ambiente en todas nuestras operaciones.</li>
+                        <li><strong>Innovación:</strong> Buscar constantemente soluciones creativas a problemas ambientales.</li>
+                        <li><strong>Transparencia:</strong> Comunicación clara y honesta con clientes y comunidades.</li>
+                        <li><strong>Calidad:</strong> Productos de alto rendimiento que cumplen con los estándares más exigentes.</li>
+                        <li><strong>Colaboración:</strong> Trabajar con comunidades, empresas e instituciones para maximizar nuestro impacto positivo.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Contacto con Formulario y Mapa -->
+    <section class="contact-section" id="contacto">
+        <div class="container">
+            <h2>Contacta con Nosotros</h2>
+            <div class="contact-container">
+                <!-- Formulario de contacto -->
+                <div class="contact-form">
+                    <h3>Envíanos un mensaje</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Nombre completo *</label>
+                            <input type="text" id="name" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Correo electrónico *</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Teléfono</label>
+                            <input type="tel" id="phone" class="form-control">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Asunto *</label>
+                            <select id="subject" class="form-control" required>
+                                <option value="" disabled selected>Selecciona un asunto</option>
+                                <option value="info">Información general</option>
+                                <option value="quote">Solicitud de presupuesto</option>
+                                <option value="distributor">Ser distribuidor</option>
+                                <option value="collaboration">Propuesta de colaboración</option>
+                                <option value="other">Otro</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Mensaje *</label>
+                            <textarea id="message" class="form-control" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn form-button" style="width: 100%;">Enviar mensaje</button>
+                    </form>
+                </div>
+                
+                <!-- Mapa de Google Maps -->
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5004.040592766245!2d-2.490916527764453!3d41.7761540069555!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd44d31d1fe3ecb7%3A0x24d8a519a57dea46!2sPol%C3%ADgono%20Industrial%20Las%20Casas%2C%20C.%20G%2C%208%2C%2042004%20Soria!5e0!3m2!1ses!2ses!4v1764619410266!5m2!1ses!2ses" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer - Color diferente -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-about">
+                    <a href="#" class="footer-logo">
+                        <img src="espiga-blanca.png" alt="Logo PanPack" class="logo-img">
+                        <!--<i class="fas fa-seedling logo-icon"></i>-->
+                        PanPack
+                    </a>
+                    <p>Transformando residuos de pan en soluciones plásticas sostenibles para un futuro más limpio y verde.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Enlaces rápidos</h4>
+                    <ul>
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#storytelling">Nuestra Historia</a></li>
+                        <li><a href="#productos">Nuestros Productos</a></li>
+                        <li><a href="#video">Proceso</a></li>
+                        <li><a href="#mvvm">Misión y Valores</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h4>Contacto</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> Calle C. G, 8, 42004, Soria</p>
+                    <p><i class="fas fa-phone"></i> +34 654 432 210</p>
+                    <p><i class="fas fa-envelope"></i> info@panpack.com</p>
+                    <p><i class="fas fa-clock"></i> Lunes a Viernes: 9:00 - 18:00</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Nuestros Productos</h4>
+                    <ul>
+                        <li><a href="#productos">PanBox - Bandejas</a></li>
+                        <li><a href="#productos">PanBag - Bolsas</a></li>
+                        <li><a href="#productos">PanFilm - Film plástico</a></li>
+                        <li><a href="#contacto">Solicitar catálogo</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 PanPack. Todos los derechos reservados. | <a href="#" style="color: var(--secondary-color); text-decoration: none;">Política de privacidad</a> | <a href="#" style="color: var(--secondary-color); text-decoration: none;">Términos y condiciones</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Menú móvil
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const mainMenu = document.getElementById('main-menu');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                mainMenu.classList.toggle('active');
+                
+                // Cambiar icono del botón
+                const icon = this.querySelector('i');
+                if (icon.classList.contains('fa-bars')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+            
+            // Cerrar menú al hacer clic en un enlace
+            const menuLinks = document.querySelectorAll('#main-menu a');
+            menuLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mainMenu.classList.remove('active');
+                    mobileMenuBtn.querySelector('i').classList.remove('fa-times');
+                    mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+                });
+            });
+            
+            // Efecto de header al hacer scroll
+            window.addEventListener('scroll', function() {
+                const header = document.querySelector('header');
+                if (window.scrollY > 100) {
+                    header.style.padding = '10px 0';
+                    header.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
+                } else {
+                    header.style.padding = '15px 0';
+                    header.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+                }
+            });
+            
+            // Smooth scroll para enlaces internos
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Carrusel de imagen/video
+            const carouselSlides = document.querySelectorAll('.carousel-slide');
+            const indicators = document.querySelectorAll('.indicator');
+            const prevButton = document.querySelector('.carousel-arrow.prev');
+            const nextButton = document.querySelector('.carousel-arrow.next');
+            let currentSlide = 0;
+            let slideInterval;
+            
+            // Función para cambiar de slide
+            function goToSlide(slideIndex) {
+                // Ocultar todos los slides
+                carouselSlides.forEach(slide => {
+                    slide.classList.remove('active');
+                });
+                
+                // Remover clase active de todos los indicadores
+                indicators.forEach(indicator => {
+                    indicator.classList.remove('active');
+                });
+                
+                // Mostrar slide seleccionado
+                carouselSlides[slideIndex].classList.add('active');
+                
+                // Activar indicador correspondiente
+                indicators[slideIndex].classList.add('active');
+                
+                // Actualizar slide actual
+                currentSlide = slideIndex;
+            }
+            
+            // Función para siguiente slide
+            function nextSlide() {
+                let nextIndex = currentSlide + 1;
+                if (nextIndex >= carouselSlides.length) {
+                    nextIndex = 0;
+                }
+                goToSlide(nextIndex);
+            }
+            
+            // Función para slide anterior
+            function prevSlide() {
+                let prevIndex = currentSlide - 1;
+                if (prevIndex < 0) {
+                    prevIndex = carouselSlides.length - 1;
+                }
+                goToSlide(prevIndex);
+            }
+            
+            // Configurar indicadores
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', function() {
+                    goToSlide(index);
+                    resetInterval(); // Reiniciar intervalo al hacer clic manual
+                });
+            });
+            
+            // Configurar flechas
+            prevButton.addEventListener('click', function() {
+                prevSlide();
+                resetInterval(); // Reiniciar intervalo al hacer clic manual
+            });
+            
+            nextButton.addEventListener('click', function() {
+                nextSlide();
+                resetInterval(); // Reiniciar intervalo al hacer clic manual
+            });
+            
+            // Iniciar intervalo (cambia cada 60 segundos como solicitaste)
+            function startInterval() {
+                slideInterval = setInterval(nextSlide, 4000); // 60000ms = 60 segundos
+            }
+            
+            // Reiniciar intervalo
+            function resetInterval() {
+                clearInterval(slideInterval);
+                startInterval();
+            }
+            
+            // Inicializar carrusel
+            function initCarousel() {
+                goToSlide(0);
+                startInterval();
+            }
+            
+            // Inicializar cuando el DOM esté listo
+            initCarousel();
+            
+            // Manejo del formulario de contacto
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Aquí normalmente enviarías el formulario a un servidor
+                    // Por ahora, solo mostraremos un mensaje de éxito
+                    
+                    // Obtener valores del formulario
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    
+                    // Mostrar mensaje de éxito
+                    alert(`¡Gracias ${name}! Hemos recibido tu mensaje. Te contactaremos en ${email} en breve.`);
+                    
+                    // Resetear formulario
+                    contactForm.reset();
+                });
+            }
+            
+            // Añadir teclado navegación para el carrusel
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowLeft') {
+                    prevSlide();
+                    resetInterval();
+                } else if (e.key === 'ArrowRight') {
+                    nextSlide();
+                    resetInterval();
+                }
+            });
+            
+            // Asegurar que el video de fondo se reproduzca correctamente en móviles
+            const heroVideo = document.querySelector('.hero-video');
+            if (heroVideo) {
+                // Forzar la reproducción en dispositivos móviles
+                heroVideo.addEventListener('loadedmetadata', function() {
+                    this.play().catch(function(error) {
+                        console.log("Error al reproducir el video automáticamente:", error);
+                    });
+                });
+                
+                // Prevenir que el video se pause cuando no está visible
+                document.addEventListener('visibilitychange', function() {
+                    if (document.hidden) {
+                        heroVideo.pause();
+                    } else {
+                        heroVideo.play().catch(function(error) {
+                            console.log("Error al reanudar el video:", error);
+                        });
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
