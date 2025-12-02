@@ -603,6 +603,28 @@
             margin-top: auto; /* Empuja el botón hacia abajo */
         }
 
+        /* Contenedor para select y campo "Otro" */
+        .subject-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .select-group {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .other-subject-group {
+            flex: 1;
+            min-width: 250px;
+            display: none;
+        }
+
+        .other-subject-group.show {
+            display: block;
+        }
+
         .map-container {
             height: 100%; /* Misma altura que el formulario */
             border-radius: 10px;
@@ -843,6 +865,16 @@
                 width: 40px;
                 height: 40px;
                 font-size: 1.2rem;
+            }
+            
+            /* En móviles, los campos de asunto se apilan */
+            .subject-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .select-group, .other-subject-group {
+                min-width: 100%;
             }
         }
 
@@ -1133,14 +1165,23 @@
                         
                         <div class="form-group">
                             <label for="subject">Asunto *</label>
-                            <select id="subject" class="form-control" required>
-                                <option value="" disabled selected>Selecciona un asunto</option>
-                                <option value="info">Información general</option>
-                                <option value="quote">Solicitud de presupuesto</option>
-                                <option value="distributor">Ser distribuidor</option>
-                                <option value="collaboration">Propuesta de colaboración</option>
-                                <option value="other">Otro</option>
-                            </select>
+                            <div class="subject-container">
+                                <div class="select-group">
+                                    <select id="subject" class="form-control" required>
+                                        <option value="" disabled selected>Selecciona un asunto</option>
+                                        <option value="info">Información general</option>
+                                        <option value="quote">Solicitud de presupuesto</option>
+                                        <option value="distributor">Ser distribuidor</option>
+                                        <option value="collaboration">Propuesta de colaboración</option>
+                                        <option value="other">Otro</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Campo para "Otro" asunto -->
+                                <div class="other-subject-group" id="otherSubjectGroup">
+                                    <input type="text" id="other_subject" class="form-control" placeholder="Especifica el asunto">
+                                </div>
+                            </div>
                         </div>
                         
                         <div class="form-group">
@@ -1283,6 +1324,10 @@
             const nextButton = document.querySelector('.carousel-arrow.next');
             let currentSlide = 0;
             let slideInterval;
+            let isCarouselPaused = false;
+            
+            // Obtener el elemento de video del carrusel
+            const carouselVideo = document.querySelector('.carousel-slide video');
             
             // Función para cambiar de slide
             function goToSlide(slideIndex) {
@@ -1304,10 +1349,23 @@
                 
                 // Actualizar slide actual
                 currentSlide = slideIndex;
+                
+                // Si el slide actual es el video y está reproduciéndose, pausar el carrusel
+                if (slideIndex === 2 && carouselVideo && !carouselVideo.paused) {
+                    pauseCarousel();
+                } else if (!isCarouselPaused) {
+                    // Si no es el video o el video está pausado, reanudar el carrusel
+                    resumeCarousel();
+                }
             }
             
             // Función para siguiente slide
             function nextSlide() {
+                // Verificar condiciones para no cambiar de slide
+                if (shouldPauseCarousel()) {
+                    return;
+                }
+                
                 let nextIndex = currentSlide + 1;
                 if (nextIndex >= carouselSlides.length) {
                     nextIndex = 0;
@@ -1317,6 +1375,11 @@
             
             // Función para slide anterior
             function prevSlide() {
+                // Verificar condiciones para no cambiar de slide
+                if (shouldPauseCarousel()) {
+                    return;
+                }
+                
                 let prevIndex = currentSlide - 1;
                 if (prevIndex < 0) {
                     prevIndex = carouselSlides.length - 1;
@@ -1324,9 +1387,40 @@
                 goToSlide(prevIndex);
             }
             
+            // Función para determinar si se debe pausar el carrusel
+            function shouldPauseCarousel() {
+                // Verificar si el slide actual es el video
+                if (currentSlide === 2 && carouselVideo) {
+                    // Si el video está reproduciéndose O está en pantalla completa
+                    if (!carouselVideo.paused || document.fullscreenElement) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            
+            // Función para pausar el carrusel
+            function pauseCarousel() {
+                isCarouselPaused = true;
+                clearInterval(slideInterval);
+            }
+            
+            // Función para reanudar el carrusel
+            function resumeCarousel() {
+                if (isCarouselPaused) {
+                    isCarouselPaused = false;
+                    startInterval();
+                }
+            }
+            
             // Configurar indicadores
             indicators.forEach((indicator, index) => {
                 indicator.addEventListener('click', function() {
+                    // Verificar condiciones para no cambiar de slide
+                    if (shouldPauseCarousel()) {
+                        return;
+                    }
+                    
                     goToSlide(index);
                     resetInterval(); // Reiniciar intervalo al hacer clic manual
                 });
@@ -1335,17 +1429,21 @@
             // Configurar flechas
             prevButton.addEventListener('click', function() {
                 prevSlide();
-                resetInterval(); // Reiniciar intervalo al hacer clic manual
+                if (!shouldPauseCarousel()) {
+                    resetInterval(); // Reiniciar intervalo al hacer clic manual
+                }
             });
             
             nextButton.addEventListener('click', function() {
                 nextSlide();
-                resetInterval(); // Reiniciar intervalo al hacer clic manual
+                if (!shouldPauseCarousel()) {
+                    resetInterval(); // Reiniciar intervalo al hacer clic manual
+                }
             });
             
-            // Iniciar intervalo (cambia cada 60 segundos como solicitaste)
+            // Iniciar intervalo (cambia cada 4 segundos)
             function startInterval() {
-                slideInterval = setInterval(nextSlide, 4000); // 60000ms = 60 segundos
+                slideInterval = setInterval(nextSlide, 4000);
             }
             
             // Reiniciar intervalo
@@ -1365,9 +1463,34 @@
             
             // Manejo del formulario de contacto
             const contactForm = document.getElementById('contactForm');
+            const subjectSelect = document.getElementById('subject');
+            const otherSubjectGroup = document.getElementById('otherSubjectGroup');
+            const otherSubjectInput = document.getElementById('other_subject');
+            
+            // Mostrar/ocultar campo "Otro" según la selección
+            if (subjectSelect) {
+                subjectSelect.addEventListener('change', function() {
+                    if (this.value === 'other') {
+                        otherSubjectGroup.classList.add('show');
+                        otherSubjectInput.required = true;
+                    } else {
+                        otherSubjectGroup.classList.remove('show');
+                        otherSubjectInput.required = false;
+                        otherSubjectInput.value = '';
+                    }
+                });
+            }
+            
             if (contactForm) {
                 contactForm.addEventListener('submit', function(e) {
                     e.preventDefault();
+                    
+                    // Validar que si se seleccionó "Otro", se haya especificado el asunto
+                    if (subjectSelect.value === 'other' && !otherSubjectInput.value.trim()) {
+                        alert('Por favor, especifica el asunto en el campo correspondiente.');
+                        otherSubjectInput.focus();
+                        return;
+                    }
                     
                     // Aquí normalmente enviarías el formulario a un servidor
                     // Por ahora, solo mostraremos un mensaje de éxito
@@ -1381,11 +1504,17 @@
                     
                     // Resetear formulario
                     contactForm.reset();
+                    otherSubjectGroup.classList.remove('show');
+                    otherSubjectInput.required = false;
                 });
             }
             
             // Añadir teclado navegación para el carrusel
             document.addEventListener('keydown', function(e) {
+                if (shouldPauseCarousel()) {
+                    return; // No navegar con teclado si el video está reproduciéndose o en pantalla completa
+                }
+                
                 if (e.key === 'ArrowLeft') {
                     prevSlide();
                     resetInterval();
@@ -1394,6 +1523,59 @@
                     resetInterval();
                 }
             });
+            
+            // Control del video del carrusel
+            if (carouselVideo) {
+                // Detectar cuando el video comienza a reproducirse
+                carouselVideo.addEventListener('play', function() {
+                    if (currentSlide === 2) {
+                        pauseCarousel();
+                    }
+                });
+                
+                // Detectar cuando el video se pausa
+                carouselVideo.addEventListener('pause', function() {
+                    if (currentSlide === 2 && !document.fullscreenElement) {
+                        resumeCarousel();
+                    }
+                });
+                
+                // Detectar cuando se entra o sale de pantalla completa
+                document.addEventListener('fullscreenchange', function() {
+                    if (document.fullscreenElement && currentSlide === 2) {
+                        // Si estamos en pantalla completa con el video, pausar el carrusel
+                        pauseCarousel();
+                    } else if (!document.fullscreenElement && currentSlide === 2 && carouselVideo.paused) {
+                        // Si salimos de pantalla completa y el video está pausado, reanudar el carrusel
+                        resumeCarousel();
+                    }
+                });
+                
+                // También para prefijos de navegadores
+                document.addEventListener('webkitfullscreenchange', function() {
+                    if (document.webkitFullscreenElement && currentSlide === 2) {
+                        pauseCarousel();
+                    } else if (!document.webkitFullscreenElement && currentSlide === 2 && carouselVideo.paused) {
+                        resumeCarousel();
+                    }
+                });
+                
+                document.addEventListener('mozfullscreenchange', function() {
+                    if (document.mozFullScreenElement && currentSlide === 2) {
+                        pauseCarousel();
+                    } else if (!document.mozFullScreenElement && currentSlide === 2 && carouselVideo.paused) {
+                        resumeCarousel();
+                    }
+                });
+                
+                document.addEventListener('MSFullscreenChange', function() {
+                    if (document.msFullscreenElement && currentSlide === 2) {
+                        pauseCarousel();
+                    } else if (!document.msFullscreenElement && currentSlide === 2 && carouselVideo.paused) {
+                        resumeCarousel();
+                    }
+                });
+            }
             
             // Asegurar que el video de fondo se reproduzca correctamente en móviles
             const heroVideo = document.querySelector('.hero-video');
